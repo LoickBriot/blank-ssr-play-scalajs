@@ -1,0 +1,14 @@
+*.class
+*.log
+target
+logs
+target
+*/target
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+data
+*.client-fastopt*

@@ -1,0 +1,72 @@
+@import play.twirl.api.Html
+@(
+        prod_version:String,
+        current_page:Html,
+        header:Html,
+        footer:Html
+)
+
+<html>
+    <head>
+
+        <meta charset="UTF-8">
+        <title>Blank SSR Play ScalaJS</title>
+
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
+        <!-- FontAwesome 5.12.0 -->
+        <link href='@routes.Assets.at("fontawesome/css/all.min.css")' rel="stylesheet" type="text/css" />
+        <!-- FontAwesome 5.12.0 -->
+
+        <!-- Bootstrap 4.0.0 -->
+        <link href='@routes.Assets.at("styles/bootstrap4.min.css")' rel="stylesheet" type="text/css" />
+        <!-- Bootstrap 4.0.0 -->
+
+        <!-- jQuery 3.4.1 -->
+        <script src='@routes.Assets.at("javascripts/jquery.3.4.1.min.js")'></script>
+        <!-- jQuery 3.4.1 -->
+
+        <link href='@routes.Assets.at("styles/caroussel.css")' rel="stylesheet" type="text/css" />
+
+
+
+        <!-- ScalaJS file according if it is prod or dev env -->
+        @if(prod_version.nonEmpty){
+        <script src='@routes.Assets.at("javascripts/client-opt-1.0.8.js")'></script>
+        } else {
+        <script src='@routes.Assets.at("javascripts/client-fastopt.js")'></script>
+        }
+        <!-- ScalaJS file according if it is prod or dev env -->
+
+
+
+    </head>
+    <body style="background-color:#FCF8FB">
+
+        @header
+
+        @current_page
+
+        @footer
+
+        <!-- ScalaJS EntryPoint -->
+        <script type="text/javascript"> JSApplicationController(""); </script>
+        <!-- ScalaJS EntryPoint -->
+
+        <!-- Bootstrap 4.0.0 -->
+        <script src='@routes.Assets.at("javascripts/popper.min.js")'></script>
+        <script src='@routes.Assets.at("javascripts/bootstrap4.min.js")'></script>
+
+        <script type="text/javascript">
+                $(document).on('show.bs.dropdown', function(e) {
+                   var dropdown = $(e.target).find('.dropdown-menu');
+                   dropdown.appendTo('body');
+                    $(this).on('hidden.bs.dropdown', function () {
+                        dropdown.appendTo(e.target);
+                    })
+                });
+        </script>
+        <!-- Bootstrap 4.0.0 -->
+
+    </body>
+</html>
