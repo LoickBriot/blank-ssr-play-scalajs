@@ -1,2 +1,2 @@
 
-# blank-ssr-play-scalajs-
+# blank-ssr-play-scalajs
