@@ -32,7 +32,7 @@
 
         <!-- ScalaJS file according if it is prod or dev env -->
         @if(prod_version.nonEmpty){
-        <script src='@routes.Assets.at("javascripts/client-opt-1.0.8.js")'></script>
+        <script src='@routes.Assets.at("javascripts/client-opt-1.0.0.js")'></script>
         } else {
         <script src='@routes.Assets.at("javascripts/client-fastopt.js")'></script>
         }
