@@ -104,7 +104,7 @@ lazy val client = (project in file("client"))
 
 
 lazy val projectSettings = Seq(
-  organization := "eu.tetrao",
+  organization := "lbriot.eu",
   scalaVersion := "2.12.12",
   javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions ++= Seq(
