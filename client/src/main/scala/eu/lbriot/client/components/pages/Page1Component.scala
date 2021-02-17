@@ -3,7 +3,7 @@ package eu.lbriot.client.components.pages
 import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
 import eu.lbriot.client.JSApplicationController
 import eu.lbriot.client.components.ApplicationComponent
-import eu.lbriot.shared_impl.SharedHTMLComponent
+import eu.lbriot.shared_impl.HtmlIDHandler
 import eu.lbriot.shared_impl.utils.{Ping, Pong}
 import rx_binding.Var
 import html_binding.mount._
@@ -11,6 +11,7 @@ import org.scalajs.dom
 import org.scalajs.dom.raw.{Event, HTMLButtonElement}
 
 import scala.collection.mutable.ListBuffer
+import html_binding.mount._
 
 case class Page1Component() extends JSPageComponentTrait {
 
@@ -60,23 +61,7 @@ case class Page1Component() extends JSPageComponentTrait {
   override val application_component: ApplicationComponentTrait[_] = ApplicationComponent
 
 
-  def on_init_action_impl() : Unit = {
-    dom.document.getElementById("ajax_ping").asInstanceOf[HTMLButtonElement].onclick = {(e:Event)=>
-      JSApplicationController.ajax(Ping())
-    }
-
-    dom.document.getElementById("ws_ping").asInstanceOf[HTMLButtonElement].onclick = {(e:Event)=>
-      JSApplicationController.ws(Ping())
-    }
-
-    dom.document.getElementById("ajax_pong").asInstanceOf[HTMLButtonElement].onclick = {(e:Event)=>
-      JSApplicationController.ajax(Pong())
-    }
-
-    dom.document.getElementById("ws_pong").asInstanceOf[HTMLButtonElement].onclick = {(e:Event)=>
-      JSApplicationController.ws(Pong())
-    }
-  }
+  def on_init_action_impl() : Unit = {}
 
   def on_set_visible_action_impl() : Unit = {}
 
@@ -95,7 +80,7 @@ case class Page1Component() extends JSPageComponentTrait {
   //   \ V /| |  __/\ V  V /
   //    \_/ |_|\___| \_/\_/
   //
-  override val maybe_ssr_id = Some("page1")
+  override val maybe_ssr_id = Some(HtmlIDHandler.PAGE1)
 
   def view_impl() : scala.xml.Node = {
     ApplicationComponent.hmtl.page1_html

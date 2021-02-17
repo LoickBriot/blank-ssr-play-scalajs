@@ -2,12 +2,14 @@ package eu.lbriot.client
 
 import communication.ServerCommunicationActorTrait
 import eu.lbriot.client.components.ApplicationComponent
-import eu.lbriot.shared_impl.SharedHTMLComponent
+import eu.lbriot.client.utils.EventHandler
+import eu.lbriot.shared_impl.{FunctionKeys, HtmlIDHandler, SharedHTMLComponent}
 import eu.lbriot.shared_impl.utils.{EnvVariableData, Ping, Pong, ServerClientMessage, ServerClientMessageSerializor}
 import html_binding.mount
 import org.scalajs.dom
 import org.scalajs.dom._
 import org.scalajs.dom.html.{Input, TextArea}
+import rx_binding.JSFunctionKeysTrait
 
 import scala.scalajs.js.annotation.JSExportTopLevel
 
@@ -32,7 +34,7 @@ object JSApplicationController extends ServerCommunicationActorTrait[ServerClien
     upickle.default.read[EnvVariableData](
       document
         .getElementById(
-          SharedHTMLComponent.env_variable_data_input_id
+          HtmlIDHandler.ENV_VARIABLE_DATA_INPUT
         )
         .asInstanceOf[Input]
         .value
@@ -57,10 +59,14 @@ object JSApplicationController extends ServerCommunicationActorTrait[ServerClien
 
   dom.window.onload = (e:Event)=> {
 
+    EventHandler.initialize()
+
     mount(
       org.scalajs.dom.document.body,
       ApplicationComponent.view()
     )
+
+
 
     ApplicationComponent.load_after_view()
 
@@ -71,12 +77,13 @@ object JSApplicationController extends ServerCommunicationActorTrait[ServerClien
 
 
 
-//                            _                                            _
-//   _ __ ___ _ __ ___   ___ | |_ ___   _ __ ___   ___ ___ ___  __ _  __ _(_)_ __   __ _
-//  | '__/ _ \ '_ ` _ \ / _ \| __/ _ \ | '_ ` _ \ / _ \ __/ __|/ _` |/ _` | | '_ \ / _` |
-//  | | |  __/ | | | | | (_) | |_  __/ | | | | | |  __\__ \__ \ (_| | (_| | | | | | (_| |
-//  |_|  \___|_| |_| |_|\___/ \__\___| |_| |_| |_|\___|___/___/\__,_|\__, |_|_| |_|\__, |
-//                                                                   |___/         |___/
+
+  //                            _                                            _
+  //   _ __ ___ _ __ ___   ___ | |_ ___   _ __ ___   ___ ___ ___  __ _  __ _(_)_ __   __ _
+  //  | '__/ _ \ '_ ` _ \ / _ \| __/ _ \ | '_ ` _ \ / _ \ __/ __|/ _` |/ _` | | '_ \ / _` |
+  //  | | |  __/ | | | | | (_) | |_  __/ | | | | | |  __\__ \__ \ (_| | (_| | | | | | (_| |
+  //  |_|  \___|_| |_| |_|\___/ \__\___| |_| |_| |_|\___|___/___/\__,_|\__, |_|_| |_|\__, |
+  //                                                                   |___/         |___/
 
 
   override protected def on_received_message(message:ServerClientMessage) : Option[ServerClientMessage] = {

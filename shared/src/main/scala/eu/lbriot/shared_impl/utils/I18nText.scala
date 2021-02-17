@@ -6,11 +6,14 @@ import eu.lbriot.shared.i18n._
 import scala.collection.mutable.ArrayBuffer
 
 case class I18nText(
-                     id:String,
                      fr:String,
                      en:String
                    )  extends I18nTextTrait {
 
+  val id = {
+    I18nText.i+=1
+    s"I18nText${I18nText.i}"
+  }
   I18nText.seq.append(this)
 
   override def rx()(implicit current_language_rx:Var[Language.Value]): Rx[String] = {
@@ -38,5 +41,6 @@ case class I18nText(
 }
 
 object I18nText{
+  var i = 0
   val seq = ArrayBuffer[I18nText]()
 }

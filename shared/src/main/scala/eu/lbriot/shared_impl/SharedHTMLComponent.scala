@@ -4,17 +4,13 @@ import eu.lbriot.shared.i18n.Language
 import eu.lbriot.shared_impl.utils._
 import rx_binding.Var
 import scala.collection.mutable
-
-
-object SharedHTMLComponent{
-  val env_variable_data_input_id = "env_variable_data_str"
-}
-
+import I18nHandler._
 
 case class SharedHTMLComponent(
-                                current_language_rx0:Var[Language.Value],
-                                env_variable_data: EnvVariableData
-                              ) {
+                          current_language_rx0:Var[Language.Value],
+                          env_variable_data: EnvVariableData
+                        ) {
+
 
 
 
@@ -61,32 +57,13 @@ case class SharedHTMLComponent(
 
   val env_variable_data_input_html : scala.xml.Elem = {
     <input
-    id={SharedHTMLComponent.env_variable_data_input_id}
+    id={HtmlIDHandler.ENV_VARIABLE_DATA_INPUT}
     type="hidden"
     value={s"${upickle.default.write(env_variable_data)}"
     }></input>
   }
 
 
-
-
-  val page1_link_i18n : I18nText = I18nText(
-    id="link_page_1",
-    fr = "Onglet 1",
-    en = "Tab 1"
-  )
-
-  val page2_link_i18n : I18nText = I18nText(
-    id="link_page_2",
-    fr = "Onglet 2",
-    en = "Tab 2"
-  )
-
-  val page3_link_i18n : I18nText = I18nText(
-    id="link_page_3",
-    fr = "Onglet 3",
-    en = "Tab 3"
-  )
 
 
   lazy val header_elt_html : scala.xml.Elem = {
@@ -171,39 +148,59 @@ case class SharedHTMLComponent(
   }
 
 
-  val page1_i18n : I18nText = {
-    I18nText(
-      id="span_page1",
-      fr = "Texte 1",
-      en = "Text 1"
-    )
-  }
+
+
+
 
   lazy val page1_html : scala.xml.Elem = {
-    <div id="page1">
+    <div id={HtmlIDHandler.PAGE1}>
       <div style="margin-top:100px">
+
+
         {page1_i18n.html()}
-        <button id="ajax_ping">AJAX Ping</button>
-        <button id="ws_ping">WS Ping</button>
-        <button id="ajax_pong">AJAX Pong</button>
-        <button id="ws_pong">WS Pong</button>
+
+
+        <button onclick={
+                new JSFunctionKeys(
+                  FunctionKeys.AJAX_PING,
+                  Map("suffix"-> "abc ere")
+                )
+                }>{ajax_ping_i18n.html()}</button>
+
+        <button onclick={
+                new JSFunctionKeys(
+                  FunctionKeys.AJAX_PONG,
+                  Map("suffix"-> "ghi sdf")
+                )
+                }>{ajax_pong_i18n.html()}</button>
+
+
+        <button onclick={
+                new JSFunctionKeys(
+                  FunctionKeys.WS_PING,
+                  Map("suffix"-> "def sdf")
+                )
+                }>{ws_ping_i18n.html()}</button>
+
+
+        <button onclick={
+                new JSFunctionKeys(
+                  FunctionKeys.WS_PONG,
+                  Map("suffix"-> "jkl sdf")
+                )
+                }>{ws_pong_i18n.html()}</button>
+
       </div>
     </div>
   }
 
 
 
-  val page2_i18n : I18nText = {
-    I18nText(
-      id="span_page2",
-      fr = "Texte 2",
-      en = "Text 2"
-    )
-  }
+
 
 
   lazy val page2_html : scala.xml.Elem = {
-    <div id="page2">
+    <div id={HtmlIDHandler.PAGE2}>
       <div style="margin-top:100px">
         {page2_i18n.html()}
         <textarea id="text_area1" style="width:800px;height:400px"></textarea>
@@ -212,17 +209,10 @@ case class SharedHTMLComponent(
   }
 
 
-  val page3_i18n : I18nText = {
-    I18nText(
-      id="span_page3",
-      fr = "Texte 3",
-      en = "Text 3"
-    )
-  }
 
 
   lazy val page3_html : scala.xml.Elem = {
-    <div id="page3" >
+    <div id={HtmlIDHandler.PAGE3}>
       <div style="margin-top:100px">
         {page3_i18n.html()}
         <textarea id="text_area2" style="width:800px;height:400px"></textarea>

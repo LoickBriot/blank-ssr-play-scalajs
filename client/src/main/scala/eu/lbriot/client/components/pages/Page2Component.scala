@@ -2,6 +2,7 @@ package eu.lbriot.client.components.pages
 
 import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
 import eu.lbriot.client.components.ApplicationComponent
+import eu.lbriot.shared_impl.HtmlIDHandler
 import rx_binding.Var
 
 import scala.collection.mutable.ListBuffer
@@ -73,7 +74,7 @@ case class Page2Component() extends JSPageComponentTrait {
   //   \ V /| |  __/\ V  V /
   //    \_/ |_|\___| \_/\_/
   //
-  override val maybe_ssr_id = Some("page2")
+  override val maybe_ssr_id = Some(HtmlIDHandler.PAGE2)
 
   def view_impl() : scala.xml.Node = {
     ApplicationComponent.hmtl.page2_html

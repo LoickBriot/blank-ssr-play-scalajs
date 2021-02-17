@@ -139,11 +139,8 @@ object ApplicationComponent extends ApplicationComponentTrait[I18nText] {
 
         I18nText.seq.distinct.foreach{elt=>
           try {
-
             val html_elt = document.getElementById(elt.id)
-
             if(html_elt!=null) {
-              println(html_elt)
               html_elt.asInstanceOf[HTMLSpanElement].innerText = {
                 Language.withName(e.target.asInstanceOf[HTMLSelectElement].value) match {
                   case Language.FR => elt.fr
