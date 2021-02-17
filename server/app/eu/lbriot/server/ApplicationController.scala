@@ -1,70 +1,79 @@
 package eu.lbriot.server
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.ActorSystem
 import akka.stream.Materializer
-import eu.lbriot.shared._
 import eu.lbriot.shared.i18n.Language
 import eu.lbriot.shared_impl._
-
+import eu.lbriot.shared_impl.utils.{EnvVariableData, Ping, Pong, ServerClientMessage, ServerClientMessageSerializor}
 import javax.inject.Inject
-import play.api.libs.streams.ActorFlow
 import play.api.mvc._
-import play.twirl.api.Html
-
 import scala.concurrent.Future
-import scala.io.Source
-import play.twirl.api.Html
 import rx_binding.Var
 
-class ApplicationController @Inject()(override val controllerComponents: ControllerComponents)(implicit system: ActorSystem, mat: Materializer) extends
-  CommunicationClientActorTrait[ServerClientMessage](new ServerClientMessageSerializor()) with BaseController{
+class ApplicationController @Inject()(override val controllerComponents: ControllerComponents)
+(
+  implicit system: ActorSystem,
+  mat: Materializer
+) extends CommunicationClientActorTrait[ServerClientMessage](new ServerClientMessageSerializor())
+  with BaseController {
 
 
-  def index2(path:String) = Action.async { implicit request: Request[AnyContent] =>
-    func(path,"FR")
+
+//       _       __             _ _     _           _
+//    __| | ___ / _| __ _ _   _| | |_  (_)_ __   __| | _____  _____ ___
+//   / _` |/ _ \ |_ / _` | | | | | __| | | '_ \ / _` |/ _ \ \/ / _ \ __|
+//  | (_| |  __/  _| (_| | |_| | | |_  | | | | | (_| |  __/>  <  __\__ \
+//   \__,_|\___|_|  \__,_|\__,_|_|\__| |_|_| |_|\__,_|\___/_/\_\___|___/
+//
+
+
+  def default_index(
+                     path:String
+                   ) = Action.async { implicit request: Request[AnyContent] =>
+    index_implementation(path,"FR")
   }
 
-  def index(path:String, lang:String) = Action.async { implicit request: Request[AnyContent] =>
-    func(path,lang)
+  def index_with_lang(
+                       path:String,
+                       lang:String
+                     ) = Action.async { implicit request: Request[AnyContent] =>
+    index_implementation(path,lang)
   }
 
-  def func(path:String, lang:String) = {
+  def index_implementation(
+                            path:String,
+                            lang:String
+                          ) = {
 
-    val html_el = new SharedHTMLComponent(Var(Language.withName(lang)))
-    println(s"PATH IS '${path}'")
-
-    val html = {
-      path match{
-        case "page1" => {
-          html_el.page1.toString()
-        }
-        case "page2" => {
-          html_el.page2.toString()
-        }
-        case "page3" => {
-          html_el.page3.toString()
-        }
-        case _ => "<div></div>"
-
-      }
+    val env_variable_data = {
+      new EnvVariableData(
+        prod_version =  {
+          if(ConfigUtils.prod_version.nonEmpty){
+            ConfigUtils.prod_version
+          } else {
+            "development"
+          }
+        },
+        initial_url = path
+      )
     }
+
+    println(s"env_variable_data: ${env_variable_data}")
+
+    val shared_html_component = new SharedHTMLComponent(
+      Var(Language.withName(lang)),
+      env_variable_data
+    )
+
     Future.successful {
       Ok(
         eu.lbriot.server.html.Application(
-          ConfigUtils.prod_version,
-          Html.apply(
-            html
-          ),
-          Html.apply(
-            html_el.header_elt.toString
-          ),
-          Html.apply(
-            html_el.footer_elt.toString
-          )
+          shared_html_component
         )
       )
     }
   }
+
 
   //        _ _            _                                               _           _   _
   //    ___| (_) ___ _ __ | |_    ___ ___  _ __ ___  _ __ ___  _   _ _ __ (_) ___ __ _| |_(_) ___  _ __

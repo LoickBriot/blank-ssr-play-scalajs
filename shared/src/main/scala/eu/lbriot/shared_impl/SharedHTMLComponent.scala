@@ -1,71 +1,95 @@
 package eu.lbriot.shared_impl
 
 import eu.lbriot.shared.i18n.Language
-import eu.lbriot.shared_impl.language._
+import eu.lbriot.shared_impl.utils._
 import rx_binding.Var
 import scala.collection.mutable
 
 
-case class SharedHTMLComponent(current_language_rx0:Var[Language.Value]) {
+object SharedHTMLComponent{
+  val env_variable_data_input_id = "env_variable_data_str"
+}
+
+
+case class SharedHTMLComponent(
+                                current_language_rx0:Var[Language.Value],
+                                env_variable_data: EnvVariableData
+                              ) {
+
+
+
+  //   _       _ _   _       _ _          _   _
+  //  (_)_ __ (_) |_(_) __ _| (_)______ _| |_(_) ___  _ __
+  //  | | '_ \| | __| |/ _` | | |_  / _` | __| |/ _ \| '_ \
+  //  | | | | | | |_| | (_| | | |/ / (_| | |_| | (_) | | | |
+  //  |_|_| |_|_|\__|_|\__,_|_|_/___\__,_|\__|_|\___/|_| |_|
+  //
+
+
+  def initialize() : Unit = {
+    footer_html
+    header_elt_html
+    page1_html
+    page2_html
+    page3_html
+  }
+
+
+
+  //                       _          _                   _       _     _
+  //   _ __   ___  ___  __| | ___  __| | __   ____ _ _ __(_) __ _| |__ | | ___ ___
+  //  | '_ \ / _ \/ _ \/ _` |/ _ \/ _` | \ \ / / _` | '__| |/ _` | '_ \| |/ _ \ __|
+  //  | | | |  __/  __/ (_| |  __/ (_| |  \ V / (_| | |  | | (_| | |_) | |  __\__ \
+  //  |_| |_|\___|\___|\__,_|\___|\__,_|   \_/ \__,_|_|  |_|\__,_|_.__/|_|\___|___/
+  //
+
 
   implicit val current_language_rx : Var[Language.Value] = {
     current_language_rx0
   }
 
 
-  def initialize() : Unit = {
-    footer_elt
-    header_elt
-    page1
-    page2
-    page3
+
+
+  //    __ _              _                                                     _
+  //   / _(_)_  _____  __| |    ___ ___  _ __ ___  _ __   ___  _ __   ___ _ __ | |_ ___
+  //  | |_| \ \/ / _ \/ _` |   / __/ _ \| '_ ` _ \| '_ \ / _ \| '_ \ / _ \ '_ \| __/ __|
+  //  |  _| |>  <  __/ (_| |  | (__ (_) | | | | | | |_) | (_) | | | |  __/ | | | |_\__ \
+  //  |_| |_/_/\_\___|\__,_|_______\___/|_| |_| |_| .__/ \___/|_| |_|\___|_| |_|\__|___/
+  //                      |_____|                 |_|
+
+
+  val env_variable_data_input_html : scala.xml.Elem = {
+    <input
+    id={SharedHTMLComponent.env_variable_data_input_id}
+    type="hidden"
+    value={s"${upickle.default.write(env_variable_data)}"
+    }></input>
   }
 
 
 
-  var j = 0
-  val seq = mutable.HashMap[String,String]()
-  def redirection_link(page:String, maybeClass:Option[String],xml:scala.xml.Elem) : scala.xml.Elem = {
 
-    j+=1
-    seq.put(s"redirection_${j}", page)
-
-    maybeClass match {
-      case Some(class_val)=> {
-        <a class={class_val} id={s"redirection_${j}"} href={page}>
-          {xml}
-        </a>
-      }
-      case visible => {
-        <a id={s"redirection_${j}"} href={page}>
-          {xml}
-        </a>
-      }
-    }
-  }
-
-
-
-  val page1_link_i18n = I18nText(
+  val page1_link_i18n : I18nText = I18nText(
     id="link_page_1",
     fr = "Onglet 1",
     en = "Tab 1"
   )
 
-  val page2_link_i18n = I18nText(
+  val page2_link_i18n : I18nText = I18nText(
     id="link_page_2",
     fr = "Onglet 2",
     en = "Tab 2"
   )
 
-  val page3_link_i18n = I18nText(
+  val page3_link_i18n : I18nText = I18nText(
     id="link_page_3",
     fr = "Onglet 3",
     en = "Tab 3"
   )
 
 
-  lazy val header_elt = {
+  lazy val header_elt_html : scala.xml.Elem = {
 
 
     <nav class="navbar navbar-light fixed-top navbar-expand-xl" style="background-color: #EEBEDB;z-index:10">
@@ -108,14 +132,43 @@ case class SharedHTMLComponent(current_language_rx0:Var[Language.Value]) {
 
 
 
-  lazy val footer_elt = {
+  lazy val footer_html : scala.xml.Elem = {
     <footer style="position:fixed;bottom: 0;width: 100%;height: 40px;line-height: 40px; background-color: #F9F4F6;text-align:center">
       <div class="container">
-        <span><b>Maîtresse</b> Licorne</span>  - Version 1.0.8
+        <span><b>Blank SSR</b> Play ScalaJS</span>  - Version {env_variable_data.prod_version}
       </div>
     </footer>
   }
 
+
+
+
+
+
+
+  //       _                             _
+  //    __| |_   _ _ __   __ _ _ __ ___ (_) ___   _ __   __ _  __ _  ___ ___
+  //   / _` | | | | '_ \ / _` | '_ ` _ \| |/ __| | '_ \ / _` |/ _` |/ _ \ __|
+  //  | (_| | |_| | | | | (_| | | | | | | | (__  | |_) | (_| | (_| |  __\__ \
+  //   \__,_|\__, |_| |_|\__,_|_| |_| |_|_|\___| | .__/ \__,_|\__, |\___|___/
+  //         |___/                               |_|          |___/
+
+
+
+  lazy val current_page_html : scala.xml.Elem = {
+    env_variable_data.initial_url match{
+      case "page1" => {
+        page1_html
+      }
+      case "page2" => {
+        page2_html
+      }
+      case "page3" => {
+        page3_html
+      }
+      case _ => <div></div>
+    }
+  }
 
 
   val page1_i18n : I18nText = {
@@ -126,7 +179,7 @@ case class SharedHTMLComponent(current_language_rx0:Var[Language.Value]) {
     )
   }
 
-  lazy val page1 = {
+  lazy val page1_html : scala.xml.Elem = {
     <div id="page1">
       <div style="margin-top:100px">
         {page1_i18n.html()}
@@ -148,7 +201,8 @@ case class SharedHTMLComponent(current_language_rx0:Var[Language.Value]) {
     )
   }
 
-  lazy val  page2 = {
+
+  lazy val page2_html : scala.xml.Elem = {
     <div id="page2">
       <div style="margin-top:100px">
         {page2_i18n.html()}
@@ -166,7 +220,8 @@ case class SharedHTMLComponent(current_language_rx0:Var[Language.Value]) {
     )
   }
 
-  lazy val page3 = {
+
+  lazy val page3_html : scala.xml.Elem = {
     <div id="page3" >
       <div style="margin-top:100px">
         {page3_i18n.html()}
@@ -177,4 +232,31 @@ case class SharedHTMLComponent(current_language_rx0:Var[Language.Value]) {
 
 
 
+  //         _   _ _                  _   _               _
+  //   _   _| |_(_) |  _ __ ___   ___| |_| |__   ___   __| |___
+  //  | | | | __| | | | '_ ` _ \ / _ \ __| '_ \ / _ \ / _` / __|
+  //  | |_| | |_| | | | | | | | |  __/ |_| | | | (_) | (_| \__ \
+  //   \__,_|\__|_|_| |_| |_| |_|\___|\__|_| |_|\___/ \__,_|___/
+  //
+
+
+  var j = 0
+  val seq = mutable.HashMap[String,String]()
+  def redirection_link(page:String, maybeClass:Option[String],xml:scala.xml.Elem) : scala.xml.Elem = {
+    j+=1
+    seq.put(s"redirection_${j}", page)
+
+    maybeClass match {
+      case Some(class_val)=> {
+        <a class={class_val} id={s"redirection_${j}"} href={page}>
+          {xml}
+        </a>
+      }
+      case visible => {
+        <a id={s"redirection_${j}"} href={page}>
+          {xml}
+        </a>
+      }
+    }
+  }
 }

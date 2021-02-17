@@ -1,13 +1,13 @@
 package eu.lbriot.client.components
 
 import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
-import eu.lbriot.shared_impl.language.I18nText
+import eu.lbriot.client.JSApplicationController
+import eu.lbriot.shared_impl.utils.I18nText
 import eu.lbriot.client.components.pages._
 import eu.lbriot.shared.i18n.Language
 import eu.lbriot.shared_impl.SharedHTMLComponent
 import rx_binding.Var
 import html_binding.mount._
-
 import org.scalajs.dom
 import org.scalajs.dom.{Event, document}
 import org.scalajs.dom.raw.{HTMLAnchorElement, HTMLLinkElement, HTMLSelectElement, HTMLSpanElement, UIEvent}
@@ -92,7 +92,11 @@ object ApplicationComponent extends ApplicationComponentTrait[I18nText] {
 
 
 
-  lazy val hmtl = new SharedHTMLComponent(current_language_rx)
+  // TODO Send Env Variable list to the client side
+  lazy val hmtl = new SharedHTMLComponent(
+    current_language_rx,
+    JSApplicationController.env_variable_data
+  )
 
 
   //   _       _ _                _   _

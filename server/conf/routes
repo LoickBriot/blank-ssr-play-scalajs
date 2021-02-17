@@ -3,9 +3,9 @@ GET     /api/ws                              eu.lbriot.server.ApplicationControl
 
 POST    /api/ajax/*path                      eu.lbriot.server.ApplicationController.api(path)
 
-GET		/public/*file					            controllers.Assets.at(path="/public", file)
+GET		/public/*file					     controllers.Assets.at(path="/public", file)
 
-GET     /:lang/$path<.*>                            eu.lbriot.server.ApplicationController.index(path,lang)
+GET     /:lang/$path<.*>                     eu.lbriot.server.ApplicationController.index_with_lang(path,lang)
 
-GET     /$path<.*>                                  eu.lbriot.server.ApplicationController.index2(path)
+GET     /$path<.*>                           eu.lbriot.server.ApplicationController.default_index(path)
 

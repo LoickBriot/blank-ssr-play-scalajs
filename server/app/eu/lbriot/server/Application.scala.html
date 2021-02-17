@@ -1,10 +1,6 @@
 @import play.twirl.api.Html
-@(
-        prod_version:String,
-        current_page:Html,
-        header:Html,
-        footer:Html
-)
+@import eu.lbriot.shared_impl.SharedHTMLComponent
+@(shared_html_component: SharedHTMLComponent)
 
 <html>
     <head>
@@ -31,8 +27,13 @@
 
 
         <!-- ScalaJS file according if it is prod or dev env -->
-        @if(prod_version.nonEmpty){
-        <script src='@routes.Assets.at("javascripts/client-opt-1.0.0.js")'></script>
+        @if(
+            shared_html_component.env_variable_data.prod_version!="development" &&
+                    shared_html_component.env_variable_data.prod_version.nonEmpty
+        ){
+        <script src='@routes.Assets.at(
+            s"javascripts/client-opt-${shared_html_component.env_variable_data.prod_version}.js"
+        )'></script>
         } else {
         <script src='@routes.Assets.at("javascripts/client-fastopt.js")'></script>
         }
@@ -43,11 +44,13 @@
     </head>
     <body style="background-color:#FCF8FB">
 
-        @header
+        @Html.apply(shared_html_component.env_variable_data_input_html.toString())
 
-        @current_page
+        @Html.apply(shared_html_component.header_elt_html.toString())
 
-        @footer
+        @Html.apply(shared_html_component.current_page_html.toString())
+
+        @Html.apply(shared_html_component.footer_html.toString())
 
         <!-- ScalaJS EntryPoint -->
         <script type="text/javascript"> JSApplicationController(""); </script>

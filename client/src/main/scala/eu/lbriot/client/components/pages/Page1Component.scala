@@ -3,7 +3,8 @@ package eu.lbriot.client.components.pages
 import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
 import eu.lbriot.client.JSApplicationController
 import eu.lbriot.client.components.ApplicationComponent
-import eu.lbriot.shared_impl.{Ping, Pong, SharedHTMLComponent}
+import eu.lbriot.shared_impl.SharedHTMLComponent
+import eu.lbriot.shared_impl.utils.{Ping, Pong}
 import rx_binding.Var
 import html_binding.mount._
 import org.scalajs.dom
@@ -97,7 +98,7 @@ case class Page1Component() extends JSPageComponentTrait {
   override val maybe_ssr_id = Some("page1")
 
   def view_impl() : scala.xml.Node = {
-    ApplicationComponent.hmtl.page1
+    ApplicationComponent.hmtl.page1_html
   }
 
 

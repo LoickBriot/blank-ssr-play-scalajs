@@ -76,7 +76,7 @@ case class Page3Component() extends JSPageComponentTrait {
   override val maybe_ssr_id = Some("page3")
 
   def view_impl() : scala.xml.Node = {
-    ApplicationComponent.hmtl.page3
+    ApplicationComponent.hmtl.page3_html
   }
 
 
