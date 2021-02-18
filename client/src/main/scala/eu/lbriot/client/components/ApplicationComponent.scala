@@ -7,13 +7,11 @@ import eu.lbriot.client.components.pages._
 import eu.lbriot.shared.i18n.Language
 import eu.lbriot.shared_impl.SharedHTMLComponent
 import rx_binding.Var
-import html_binding.mount._
-import org.scalajs.dom
 import org.scalajs.dom.{Event, document}
-import org.scalajs.dom.raw.{HTMLAnchorElement, HTMLLinkElement, HTMLSelectElement, HTMLSpanElement, UIEvent}
-
+import org.scalajs.dom.raw.{HTMLAnchorElement, HTMLSelectElement, HTMLSpanElement}
 import scala.collection.mutable.ListBuffer
 import scala.xml.Node
+
 
 object ApplicationComponent extends ApplicationComponentTrait[I18nText] {
 
@@ -28,7 +26,10 @@ object ApplicationComponent extends ApplicationComponentTrait[I18nText] {
   override val default_language : Language.Value = Language.FR
 
   override val active_languages: Seq[Language.Value] = {
-    Seq(Language.FR,Language.EN)
+    Seq(
+      Language.FR,
+      Language.EN
+    )
   }
 
 

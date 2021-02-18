@@ -2,7 +2,7 @@ package eu.lbriot.client.components.pages
 
 import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
 import eu.lbriot.client.components.ApplicationComponent
-import eu.lbriot.shared_impl.HtmlIDHandler
+import eu.lbriot.shared_impl.utils.HtmlIDHandler
 import rx_binding.Var
 
 import scala.collection.mutable.ListBuffer

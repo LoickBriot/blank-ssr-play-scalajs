@@ -1,17 +1,11 @@
 package eu.lbriot.client.components.pages
 
 import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
-import eu.lbriot.client.JSApplicationController
 import eu.lbriot.client.components.ApplicationComponent
-import eu.lbriot.shared_impl.HtmlIDHandler
-import eu.lbriot.shared_impl.utils.{Ping, Pong}
+import eu.lbriot.shared_impl.utils.HtmlIDHandler
 import rx_binding.Var
-import html_binding.mount._
-import org.scalajs.dom
-import org.scalajs.dom.raw.{Event, HTMLButtonElement}
 
 import scala.collection.mutable.ListBuffer
-import html_binding.mount._
 
 case class Page1Component() extends JSPageComponentTrait {
 

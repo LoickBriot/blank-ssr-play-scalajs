@@ -160,35 +160,21 @@ case class SharedHTMLComponent(
         {page1_i18n.html()}
 
 
-        <button onclick={
-                new JSFunctionKeys(
-                  FunctionKeys.AJAX_PING,
-                  Map("suffix"-> "abc ere")
-                )
-                }>{ajax_ping_i18n.html()}</button>
+        <button onclick={AjaxPingFunctionParam("abc")}>
+          {ajax_ping_i18n.html()}
+        </button>
 
-        <button onclick={
-                new JSFunctionKeys(
-                  FunctionKeys.AJAX_PONG,
-                  Map("suffix"-> "ghi sdf")
-                )
-                }>{ajax_pong_i18n.html()}</button>
+        <button onclick={AjaxPongFunctionParam("def")}>
+          {ajax_pong_i18n.html()}
+        </button>
 
+        <button onclick={WsPingFunctionParam("ghi")}>
+          {ws_ping_i18n.html()}
+        </button>
 
-        <button onclick={
-                new JSFunctionKeys(
-                  FunctionKeys.WS_PING,
-                  Map("suffix"-> "def sdf")
-                )
-                }>{ws_ping_i18n.html()}</button>
-
-
-        <button onclick={
-                new JSFunctionKeys(
-                  FunctionKeys.WS_PONG,
-                  Map("suffix"-> "jkl sdf")
-                )
-                }>{ws_pong_i18n.html()}</button>
+        <button onclick={WsPongFunctionParam("jkl")}>
+          {ws_pong_i18n.html()}
+        </button>
 
       </div>
     </div>

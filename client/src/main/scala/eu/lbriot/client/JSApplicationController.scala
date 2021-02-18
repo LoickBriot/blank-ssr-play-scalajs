@@ -2,14 +2,11 @@ package eu.lbriot.client
 
 import communication.ServerCommunicationActorTrait
 import eu.lbriot.client.components.ApplicationComponent
-import eu.lbriot.client.utils.EventHandler
-import eu.lbriot.shared_impl.{FunctionKeys, HtmlIDHandler, SharedHTMLComponent}
-import eu.lbriot.shared_impl.utils.{EnvVariableData, Ping, Pong, ServerClientMessage, ServerClientMessageSerializor}
-import html_binding.mount
+import eu.lbriot.client.utils.MountHandler
+import eu.lbriot.shared_impl.utils.{HtmlIDHandler, _}
 import org.scalajs.dom
 import org.scalajs.dom._
 import org.scalajs.dom.html.{Input, TextArea}
-import rx_binding.JSFunctionKeysTrait
 
 import scala.scalajs.js.annotation.JSExportTopLevel
 
@@ -59,13 +56,11 @@ object JSApplicationController extends ServerCommunicationActorTrait[ServerClien
 
   dom.window.onload = (e:Event)=> {
 
-    EventHandler.initialize()
 
-    mount(
+    MountHandler(
       org.scalajs.dom.document.body,
       ApplicationComponent.view()
     )
-
 
 
     ApplicationComponent.load_after_view()
