@@ -1,18 +1,18 @@
-package eu.lbriot.client.components.pages
+package eu.lbriot.client.components.fixed
 
-import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
+import components.{ApplicationComponentTrait, FixedComponentTrait, JSComponentTrait, JSPageComponentTrait}
 import eu.lbriot.client.components.ApplicationComponent
 import eu.lbriot.shared_impl.utils.HtmlIDHandler
 import rx_binding.Var
 
 import scala.collection.mutable.ListBuffer
 
-case class Page1Component() extends JSPageComponentTrait {
+case class FooterComponent() extends FixedComponentTrait {
 
   override val application_component: ApplicationComponentTrait[_] = ApplicationComponent
 
   override val component_id : String = {
-    HtmlIDHandler.page1
+    HtmlIDHandler.footer
   }
 
 
@@ -46,7 +46,6 @@ case class Page1Component() extends JSPageComponentTrait {
 
   def on_set_hidden_action_impl() : Unit = {}
 
-
   protected val children_components : ListBuffer[JSComponentTrait] = {
     ListBuffer()
   }
@@ -61,7 +60,7 @@ case class Page1Component() extends JSPageComponentTrait {
   //
 
   def view_impl() : scala.xml.Node = {
-    ApplicationComponent.sharedHTMLComponent.page1_html
+    ApplicationComponent.sharedHTMLComponent.footer_html
   }
 
 

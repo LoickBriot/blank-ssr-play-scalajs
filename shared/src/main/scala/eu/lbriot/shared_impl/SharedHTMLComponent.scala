@@ -3,49 +3,10 @@ package eu.lbriot.shared_impl
 import eu.lbriot.shared.i18n.Language
 import eu.lbriot.shared_impl.utils._
 import rx_binding.Var
-import scala.collection.mutable
-import I18nHandler._
 
 case class SharedHTMLComponent(
-                          current_language_rx0:Var[Language.Value],
                           env_variable_data: EnvVariableData
-                        ) {
-
-
-
-
-  //   _       _ _   _       _ _          _   _
-  //  (_)_ __ (_) |_(_) __ _| (_)______ _| |_(_) ___  _ __
-  //  | | '_ \| | __| |/ _` | | |_  / _` | __| |/ _ \| '_ \
-  //  | | | | | | |_| | (_| | | |/ / (_| | |_| | (_) | | | |
-  //  |_|_| |_|_|\__|_|\__,_|_|_/___\__,_|\__|_|\___/|_| |_|
-  //
-
-
-  def initialize() : Unit = {
-    footer_html
-    header_elt_html
-    page1_html
-    page2_html
-    page3_html
-  }
-
-
-
-  //                       _          _                   _       _     _
-  //   _ __   ___  ___  __| | ___  __| | __   ____ _ _ __(_) __ _| |__ | | ___ ___
-  //  | '_ \ / _ \/ _ \/ _` |/ _ \/ _` | \ \ / / _` | '__| |/ _` | '_ \| |/ _ \ __|
-  //  | | | |  __/  __/ (_| |  __/ (_| |  \ V / (_| | |  | | (_| | |_) | |  __\__ \
-  //  |_| |_|\___|\___|\__,_|\___|\__,_|   \_/ \__,_|_|  |_|\__,_|_.__/|_|\___|___/
-  //
-
-
-  implicit val current_language_rx : Var[Language.Value] = {
-    current_language_rx0
-  }
-
-
-
+                        )(implicit val current_language_rx:Var[Language.Value], val isJS:Boolean) extends I18nHandler{
 
   //    __ _              _                                                     _
   //   / _(_)_  _____  __| |    ___ ___  _ __ ___  _ __   ___  _ __   ___ _ __ | |_ ___
@@ -57,7 +18,7 @@ case class SharedHTMLComponent(
 
   val env_variable_data_input_html : scala.xml.Elem = {
     <input
-    id={HtmlIDHandler.ENV_VARIABLE_DATA_INPUT}
+    id={HtmlIDHandler.env_variable_data_input}
     type="hidden"
     value={s"${upickle.default.write(env_variable_data)}"
     }></input>
@@ -68,8 +29,9 @@ case class SharedHTMLComponent(
 
   lazy val header_elt_html : scala.xml.Elem = {
 
-
-    <nav class="navbar navbar-light fixed-top navbar-expand-xl" style="background-color: #EEBEDB;z-index:10">
+    <nav id={HtmlIDHandler.header}
+         class="navbar navbar-light fixed-top navbar-expand-xl"
+         style="background-color: #EEBEDB;z-index:10">
       <a href="#" class="navbar-brand" style="margin-right:80px">
         <span><b>{"BLANK SSR"}</b> {"Play ScalaJS"}</span>
       </a>
@@ -85,7 +47,7 @@ case class SharedHTMLComponent(
         </div>
 
         <div class="navbar-custom-menu" >
-          <select id="lang">
+          <select id="lang" onchange={OnChangeLanguage()}>
             {
             if("FR"==current_language_rx.getValue().toString){
               <option value="FR" selected={true}>FR</option>
@@ -110,7 +72,8 @@ case class SharedHTMLComponent(
 
 
   lazy val footer_html : scala.xml.Elem = {
-    <footer style="position:fixed;bottom: 0;width: 100%;height: 40px;line-height: 40px; background-color: #F9F4F6;text-align:center">
+    <footer id={HtmlIDHandler.footer}
+    style="position:fixed;bottom: 0;width: 100%;height: 40px;line-height: 40px; background-color: #F9F4F6;text-align:center">
       <div class="container">
         <span><b>Blank SSR</b> Play ScalaJS</span>  - Version {env_variable_data.prod_version}
       </div>
@@ -153,7 +116,7 @@ case class SharedHTMLComponent(
 
 
   lazy val page1_html : scala.xml.Elem = {
-    <div id={HtmlIDHandler.PAGE1}>
+    <div id={HtmlIDHandler.page1}>
       <div style="margin-top:100px">
 
 
@@ -186,7 +149,7 @@ case class SharedHTMLComponent(
 
 
   lazy val page2_html : scala.xml.Elem = {
-    <div id={HtmlIDHandler.PAGE2}>
+    <div id={HtmlIDHandler.page2}>
       <div style="margin-top:100px">
         {page2_i18n.html()}
         <textarea id="text_area1" style="width:800px;height:400px"></textarea>
@@ -198,7 +161,7 @@ case class SharedHTMLComponent(
 
 
   lazy val page3_html : scala.xml.Elem = {
-    <div id={HtmlIDHandler.PAGE3}>
+    <div id={HtmlIDHandler.page3}>
       <div style="margin-top:100px">
         {page3_i18n.html()}
         <textarea id="text_area2" style="width:800px;height:400px"></textarea>
@@ -216,20 +179,16 @@ case class SharedHTMLComponent(
   //
 
 
-  var j = 0
-  val seq = mutable.HashMap[String,String]()
-  def redirection_link(page:String, maybeClass:Option[String],xml:scala.xml.Elem) : scala.xml.Elem = {
-    j+=1
-    seq.put(s"redirection_${j}", page)
 
+  def redirection_link(page:String, maybeClass:Option[String],xml:scala.xml.Elem) : scala.xml.Elem = {
     maybeClass match {
       case Some(class_val)=> {
-        <a class={class_val} id={s"redirection_${j}"} href={page}>
+        <a class={class_val} href={page} onclick={URLClickNoRedirect(page)}>
           {xml}
         </a>
       }
       case visible => {
-        <a id={s"redirection_${j}"} href={page}>
+        <a href={page} onclick={URLClickNoRedirect(page)}>
           {xml}
         </a>
       }

@@ -1,6 +1,12 @@
 package eu.lbriot.shared_impl.utils
 
-object I18nHandler {
+import eu.lbriot.shared.i18n.Language
+import rx_binding.Var
+
+trait I18nHandler{
+
+  implicit val current_language_rx:Var[Language.Value]
+  implicit val isJS:Boolean
 
   val page1_link_i18n: I18nText = I18nText(
     fr = "Onglet 1",

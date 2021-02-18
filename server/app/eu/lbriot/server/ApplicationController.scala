@@ -54,16 +54,16 @@ class ApplicationController @Inject()(override val controllerComponents: Control
             "development"
           }
         },
-        initial_url = path
+        initial_url = path,
+        default_language = lang
       )
     }
 
     println(s"env_variable_data: ${env_variable_data}")
 
     val shared_html_component = new SharedHTMLComponent(
-      Var(Language.withName(lang)),
       env_variable_data
-    )
+    )(Var(Language.withName(lang)), false)
 
     Future.successful {
       Ok(

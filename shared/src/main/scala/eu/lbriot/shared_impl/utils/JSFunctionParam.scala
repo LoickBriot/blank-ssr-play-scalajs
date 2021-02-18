@@ -25,7 +25,9 @@ object JSFunctionParam  {
     AjaxPingFunctionParam.rw,
     AjaxPongFunctionParam.rw,
     WsPingFunctionParam.rw,
-    WsPongFunctionParam.rw
+    WsPongFunctionParam.rw,
+    URLClickNoRedirect.rw,
+    OnChangeLanguage.rw
   )
 
   implicit def datatoString(t:JSFunctionParam):String={
@@ -47,6 +49,11 @@ object WsPingFunctionParam{  implicit def rw: RW[WsPingFunctionParam] = macroRW 
 case class WsPongFunctionParam(str:String) extends JSFunctionParam
 object WsPongFunctionParam{  implicit def rw: RW[WsPongFunctionParam] = macroRW }
 
+case class URLClickNoRedirect(page:String) extends JSFunctionParam
+object URLClickNoRedirect{  implicit def rw: RW[URLClickNoRedirect] = macroRW }
+
+case class OnChangeLanguage() extends JSFunctionParam
+object OnChangeLanguage{  implicit def rw: RW[OnChangeLanguage] = macroRW }
 
 
 

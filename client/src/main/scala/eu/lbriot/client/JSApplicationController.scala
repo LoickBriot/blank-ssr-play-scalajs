@@ -17,9 +17,6 @@ object JSApplicationController extends ServerCommunicationActorTrait[ServerClien
   true
 ) {
 
-
-
-
   //              _                            _       _
   //    ___ _ __ | |_ _ __ _   _   _ __   ___ (_)_ __ | |_
   //   / _ \ '_ \| __| '__| | | | | '_ \ / _ \| | '_ \| __|
@@ -27,21 +24,8 @@ object JSApplicationController extends ServerCommunicationActorTrait[ServerClien
   //   \___|_| |_|\__|_|   \__, | | .__/ \___/|_|_| |_|\__|
   //                       |___/  |_|
 
-  lazy val env_variable_data : EnvVariableData = {
-    upickle.default.read[EnvVariableData](
-      document
-        .getElementById(
-          HtmlIDHandler.ENV_VARIABLE_DATA_INPUT
-        )
-        .asInstanceOf[Input]
-        .value
-    )
-  }
-
   @JSExportTopLevel("JSApplicationController")
-  def main(args:String): Unit = {
-    println(env_variable_data)
-  }
+  def main(args:String): Unit = {}
 
 
 
@@ -56,12 +40,10 @@ object JSApplicationController extends ServerCommunicationActorTrait[ServerClien
 
   dom.window.onload = (e:Event)=> {
 
-
     MountHandler(
       org.scalajs.dom.document.body,
       ApplicationComponent.view()
     )
-
 
     ApplicationComponent.load_after_view()
 

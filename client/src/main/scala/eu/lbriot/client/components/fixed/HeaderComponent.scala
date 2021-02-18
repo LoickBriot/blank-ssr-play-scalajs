@@ -1,19 +1,20 @@
-package eu.lbriot.client.components.pages
+package eu.lbriot.client.components.fixed
 
-import components.{ApplicationComponentTrait, JSComponentTrait, JSPageComponentTrait}
+import components.{ApplicationComponentTrait, FixedComponentTrait, JSComponentTrait, JSPageComponentTrait}
 import eu.lbriot.client.components.ApplicationComponent
 import eu.lbriot.shared_impl.utils.HtmlIDHandler
 import rx_binding.Var
 
 import scala.collection.mutable.ListBuffer
 
-case class Page1Component() extends JSPageComponentTrait {
+case class HeaderComponent() extends FixedComponentTrait {
 
   override val application_component: ApplicationComponentTrait[_] = ApplicationComponent
 
   override val component_id : String = {
-    HtmlIDHandler.page1
+    HtmlIDHandler.header
   }
+
 
 
   //              _                                        _
@@ -38,8 +39,6 @@ case class Page1Component() extends JSPageComponentTrait {
   //
 
 
-
-
   def on_init_action_impl() : Unit = {}
 
   def on_set_visible_action_impl() : Unit = {}
@@ -52,6 +51,7 @@ case class Page1Component() extends JSPageComponentTrait {
   }
 
 
+  override val visible_rx = Var(true)
 
   //         _
   //  __   ___) _____      __
@@ -61,7 +61,7 @@ case class Page1Component() extends JSPageComponentTrait {
   //
 
   def view_impl() : scala.xml.Node = {
-    ApplicationComponent.sharedHTMLComponent.page1_html
+    ApplicationComponent.sharedHTMLComponent.header_elt_html
   }
 
 

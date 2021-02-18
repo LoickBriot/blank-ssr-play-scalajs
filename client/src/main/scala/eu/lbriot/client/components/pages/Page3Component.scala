@@ -9,25 +9,11 @@ import scala.collection.mutable.ListBuffer
 
 case class Page3Component() extends JSPageComponentTrait {
 
-  //   _     _             _   _     _
-  //  | |__ | |_ _ __ ___ | | (_) __| |___
-  //  | '_ \| __| '_ ` _ \| | | |/ _` / __|
-  //  | | | | |_| | | | | | | | | (_| \__ \
-  //  |_| |_|\__|_| |_| |_|_| |_|\__,_|___/
-  //
+  override val application_component: ApplicationComponentTrait[_] = ApplicationComponent
 
-
-
-
-  //                      ___
-  //  __   ____ _ _ __   ( _ )    _ ____  _____
-  //  \ \ / / _` | '__|  / _ \/\ | '__\ \/ / __|
-  //   \ V / (_| | |    | (_>  < | |   >  <\__ \
-  //    \_/ \__,_|_|     \___/\/ |_|  /_/\_\___/
-  //
-
-
-
+  override val component_id : String = {
+    HtmlIDHandler.page3
+  }
 
 
   //              _                                        _
@@ -52,7 +38,6 @@ case class Page3Component() extends JSPageComponentTrait {
   //
 
 
-  override val application_component: ApplicationComponentTrait[_] = ApplicationComponent
 
 
   def on_init_action_impl() : Unit = {}
@@ -62,7 +47,7 @@ case class Page3Component() extends JSPageComponentTrait {
   def on_set_hidden_action_impl() : Unit = {}
 
 
-  protected val children_components : ListBuffer[Var[_<:JSComponentTrait]] = {
+  protected val children_components : ListBuffer[JSComponentTrait] = {
     ListBuffer()
   }
 
@@ -74,10 +59,9 @@ case class Page3Component() extends JSPageComponentTrait {
   //   \ V /| |  __/\ V  V /
   //    \_/ |_|\___| \_/\_/
   //
-  override val maybe_ssr_id = Some(HtmlIDHandler.PAGE3)
 
   def view_impl() : scala.xml.Node = {
-    ApplicationComponent.hmtl.page3_html
+    ApplicationComponent.sharedHTMLComponent.page3_html
   }
 
 
