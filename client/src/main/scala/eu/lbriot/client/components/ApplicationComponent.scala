@@ -38,6 +38,7 @@ object ApplicationComponent extends ApplicationComponentTrait[I18nText] {
     SharedHTMLComponent(envVariableData)(current_language_rx, true)
   }
 
+  override val initial_url: String = HtmlIDHandler.page1
 
 
   // TODO put in shared
