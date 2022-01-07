@@ -3,7 +3,7 @@ package eu.lbriot.client.utils
 import eu.lbriot.client.JSApplicationController
 import eu.lbriot.client.components.ApplicationComponent
 import eu.lbriot.client.components.ApplicationComponent.{pages_routing_mapping, update_main_page}
-import eu.lbriot.shared.i18n.Language
+import eu.lbriot.shared.i18n.Languages
 import eu.lbriot.shared_impl.utils.{AjaxPingFunctionParam, AjaxPongFunctionParam, JSFunctionParamSerializor, OnChangeLanguage, Ping, Pong, URLClickNoRedirect, WsPingFunctionParam, WsPongFunctionParam}
 import html_binding.mount
 import org.scalajs.dom.html.Select
@@ -11,14 +11,32 @@ import org.scalajs.dom.{Event, MouseEvent, Node}
 import org.scalajs.dom.raw.Node
 import rx_binding.{JSFunctionParamSerializorTrait, JSFunctionParamTrait}
 
+import scala.scalajs.js.annotation.JSExportTopLevel
+
 object MountHandler extends mount{
 
   override val jsFunctionKeysTraitSerializor: JSFunctionParamSerializorTrait = {
     new JSFunctionParamSerializor()
   }
 
-  override def JSFunctionRegister(param: JSFunctionParamTrait): Node => Unit = {
-    (e: Node) => {
+  @JSExportTopLevel("JSFunctionRegister")
+  override def JSFunctionRegister(event:Event,param: String): Unit = {
+
+    val js_function_keys_trait = {
+      val str = {
+        param
+          .replace("&quot;", """"""")
+          .replace("\u000A","""\n""")
+      }
+
+      jsFunctionKeysTraitSerializor.decode(str)
+    }
+    JSFunctionRegister(js_function_keys_trait)(event)
+
+  }
+
+  override def JSFunctionRegister(param: JSFunctionParamTrait): Event => Unit = {
+    (e: Event) => {
       param match {
         case AjaxPingFunctionParam(str) => {
           JSApplicationController.ajax(Ping())
@@ -42,7 +60,7 @@ object MountHandler extends mount{
         }
         case OnChangeLanguage() => {
           ApplicationComponent.current_language_rx:={
-            Language.withName(
+            Languages.withName(
               e.asInstanceOf[Event].target.asInstanceOf[Select].value
             )
           }

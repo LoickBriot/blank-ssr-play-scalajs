@@ -6,7 +6,8 @@ import upickle.default.{macroRW, ReadWriter => RW}
 case class EnvVariableData(
                             prod_version:String,
                             initial_url:String,
-                            default_language: String
+                            default_language: String,
+                            default_country: String
                           ) extends EnvVariableDataTrait
 
 object EnvVariableData{  implicit def rw: RW[EnvVariableData] = macroRW }

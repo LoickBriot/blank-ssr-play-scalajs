@@ -1,12 +1,12 @@
 package eu.lbriot.shared_impl
 
-import eu.lbriot.shared.i18n.Language
+import eu.lbriot.shared.i18n.Languages
 import eu.lbriot.shared_impl.utils._
 import rx_binding.Var
 
 case class SharedHTMLComponent(
                           env_variable_data: EnvVariableData
-                        )(implicit val current_language_rx:Var[Language.Value], val isJS:Boolean) extends I18nHandler{
+                        )(implicit val current_language_rx:Var[Languages.Value], val isJS:Boolean) extends I18nHandler{
 
   //    __ _              _                                                     _
   //   / _(_)_  _____  __| |    ___ ___  _ __ ___  _ __   ___  _ __   ___ _ __ | |_ ___

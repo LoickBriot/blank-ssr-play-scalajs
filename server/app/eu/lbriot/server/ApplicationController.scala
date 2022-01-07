@@ -2,11 +2,13 @@ package eu.lbriot.server
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer
-import eu.lbriot.shared.i18n.Language
+import eu.lbriot.shared.i18n.{Countries, Languages}
 import eu.lbriot.shared_impl._
 import eu.lbriot.shared_impl.utils.{EnvVariableData, Ping, Pong, ServerClientMessage, ServerClientMessageSerializor}
+
 import javax.inject.Inject
 import play.api.mvc._
+
 import scala.concurrent.Future
 import rx_binding.Var
 
@@ -55,7 +57,8 @@ class ApplicationController @Inject()(override val controllerComponents: Control
           }
         },
         initial_url = path,
-        default_language = lang
+        default_language = lang,
+        default_country = Countries.FR.toString
       )
     }
 
@@ -63,7 +66,7 @@ class ApplicationController @Inject()(override val controllerComponents: Control
 
     val shared_html_component = new SharedHTMLComponent(
       env_variable_data
-    )(Var(Language.withName(lang)), false)
+    )(Var(Languages.withName(lang)), false)
 
     Future.successful {
       Ok(

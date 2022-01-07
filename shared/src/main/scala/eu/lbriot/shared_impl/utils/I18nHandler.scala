@@ -1,11 +1,11 @@
 package eu.lbriot.shared_impl.utils
 
-import eu.lbriot.shared.i18n.Language
+import eu.lbriot.shared.i18n.{Languages}
 import rx_binding.Var
 
 trait I18nHandler{
 
-  implicit val current_language_rx:Var[Language.Value]
+  implicit val current_language_rx:Var[Languages.Value]
   implicit val isJS:Boolean
 
   val page1_link_i18n: I18nText = I18nText(

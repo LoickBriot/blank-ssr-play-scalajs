@@ -5,7 +5,7 @@ import eu.lbriot.client.JSApplicationController
 import eu.lbriot.client.components.fixed.{FooterComponent, HeaderComponent}
 import eu.lbriot.shared_impl.utils.{EnvVariableData, HtmlIDHandler, I18nText}
 import eu.lbriot.client.components.pages._
-import eu.lbriot.shared.i18n.Language
+import eu.lbriot.shared.i18n.{Countries, Languages}
 import eu.lbriot.shared_impl.SharedHTMLComponent
 import org.scalajs.dom.html.Input
 import rx_binding.Var
@@ -42,13 +42,18 @@ object ApplicationComponent extends ApplicationComponentTrait[I18nText] {
 
 
   // TODO put in shared
-  override val active_languages: Seq[Language.Value] = {
+  override val active_languages: Seq[Languages.Value] = {
     Seq(
-      Language.FR,
-      Language.EN
+      Languages.FR,
+      Languages.EN
     )
   }
-
+  override val active_countries: Seq[Countries.Value] = {
+    Seq(
+      Countries.FR,
+      Countries.GB
+    )
+  }
 
   //                                                                             _
   //   _ __   __ _  __ _  ___    ___ ___  _ __ ___  _ __   ___  _ __   ___ _ __ | |_ ___
